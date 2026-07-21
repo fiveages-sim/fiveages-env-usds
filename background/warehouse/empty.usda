@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (6.455396349226033, 3.087265001970586, 3.4071908473752957)
-                double3 target = (-26.290453792531515, -21.54575456806489, -11.850327334691311)
+                double3 position = (0.644816705589886, -1.3113567692727774, 2.9823678046719193)
+                double3 target = (-34.27976449701878, -7.1396413927889295, -7.287668520230153)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,7 +21,7 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./scene.usd"
+            string authoring_layer = "./empty.usda"
             dictionary locked = {
             }
             dictionary muteness = {
@@ -202,10 +202,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -43.72491527402068)
-    float3 xformOp:rotateXYZ = (69.5773, -3.5622213e-13, 126.95226)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -36.866908196174116)
+    float3 xformOp:rotateXYZ = (73.82509, -3.5304157e-13, 99.47433)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (6.455396349226033, 3.087265001970586, 3.4071908473752957)
+    double3 xformOp:translate = (0.644816705589886, -1.3113567692727774, 2.9823678046719193)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -286,7 +286,7 @@ over "OmniverseKit_Top" (
 
 def PhysicsScene "PhysicsScene" (
     delete apiSchemas = ["MjcSceneAPI", "NewtonXpbdSceneAPI"]
-    prepend apiSchemas = ["PhysxSceneAPI", "NewtonSceneAPI"]
+    prepend apiSchemas = ["PhysxSceneAPI", "NewtonSceneAPI", "MjcSceneAPI"]
 )
 {
     uniform token physxScene:broadphaseType = "SAP"
