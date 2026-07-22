@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (2.877206320614882, -3.688032516561753, 2.424214703473077)
-                double3 target = (-51.631307749883476, 28.023336463504393, -5.961657729041378)
+                double3 position = (4.96884741544764, -4.46315065358224, 3.273336367977085)
+                double3 target = (-28.343944065649893, 49.747126578097955, -11.980500625494205)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -21,7 +21,7 @@
             string boundCamera = "/OmniverseKit_Persp"
         }
         dictionary omni_layer = {
-            string authoring_layer = "./lift_box.usd"
+            string authoring_layer = "./lift_box.usda"
             dictionary locked = {
             }
             dictionary muteness = {
@@ -40,16 +40,6 @@
 
 def Xform "World"
 {
-    def "warehouse_multiple_shelves" (
-        prepend payload = @https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/Environments/Simple_Warehouse/warehouse_multiple_shelves.usd@
-    )
-    {
-        float3 xformOp:rotateZYX = (0, 0, 0)
-        float3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (-1.5, 0, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
-    }
-
     def "LogisticBox_01" (
         prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysxRigidBodyAPI"]
         prepend payload = @../../static/box/LogisticBox_01.usdc@
@@ -100,6 +90,13 @@ def Xform "World"
                 int physxConvexDecompositionCollision:maxConvexHulls = 256
             }
         }
+    }
+
+    def "warehouse_multiple_shelves" (
+        prepend payload = @https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/Environments/Simple_Warehouse/warehouse_multiple_shelves.usd@
+    )
+    {
+        double3 xformOp:translate = (-1.5, 0, 0)
     }
 }
 
@@ -179,7 +176,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1280, 720)
+                uniform int2 resolution = (937, 579)
             }
         }
     }
@@ -225,19 +222,21 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -63.616915087247236)
-    float3 xformOp:rotateXYZ = (82.42532, -3.8166657e-13, 59.81048)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -65.43069445468312)
+    float3 xformOp:rotateXYZ = (76.5186, -4.07111e-13, 31.571167)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (2.877206320614882, -3.688032516561753, 2.424214703473077)
+    double3 xformOp:translate = (4.96884741544764, -4.46315065358224, 3.273336367977085)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
 def PhysicsScene "PhysicsScene" (
+    delete apiSchemas = ["MjcSceneAPI", "NewtonXpbdSceneAPI"]
     prepend apiSchemas = ["PhysxSceneAPI", "NewtonSceneAPI"]
 )
 {
     uniform token physxScene:broadphaseType = "SAP"
     bool physxScene:enableGPUDynamics = 0
+    uint physxScene:timeStepsPerSecond = 200
 }
 
 over "OmniverseKit_Front" (
