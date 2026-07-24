@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (1.665887399801353, 0.8118824461442247, 1.6041073746235721)
-                double3 target = (-10.977772258650058, -6.7484504619454935, -3.0135427482741832)
+                double3 position = (4.451273603378985, 2.4774165988743593, 2.6213713071172506)
+                double3 target = (-10.977772258650058, -6.748450461945495, -3.0135427482741832)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -32,7 +32,7 @@
             int version = 1
         }
         dictionary omni_layer = {
-            string authoring_layer = "./empty.usda"
+            string authoring_layer = "./empty.usd"
             dictionary locked = {
             }
             dictionary muteness = {
@@ -51,18 +51,11 @@
 
 def Xform "World" (
     variants = {
-        string ROS_Camera = "enable"
+        string background = "empty"
     }
-    prepend variantSets = "ROS_Camera"
+    prepend variantSets = "background"
 )
 {
-    def "default_environment" (
-        delete payload = @../../../fiveages-env-usds/background/Grid/default_environment.usd@
-        prepend payload = @../../background/Grid/default_environment.usd@
-    )
-    {
-    }
-
     def "optical_table" (
         prepend payload = @../../static/table/optical_table.usd@
     )
@@ -99,49 +92,218 @@ def Xform "World" (
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 
-    over "global_camera" (
-        prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
-    )
+    def Camera "global_camera"
     {
+        float2 clippingRange = (0.01, 10000000)
+        float focalLength = 18.147562
+        float focusDistance = 400
+        quatd xformOp:orient = (0.06195863798359588, -0.41592771037522264, -0.07348012660338248, -0.9043041180463537)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.7, 0.1, 1.5)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
-    variantSet "ROS_Camera" = {
-        "enable" (
+
+    def "Graph"
+    {
+        def OmniGraph "ROS_Camera"
+        {
+            token evaluationMode = "Automatic"
+            token evaluator:type = "execution"
+            token fabricCacheBacking = "StageWithoutHistory"
+            int2 fileFormatVersion = (1, 9)
+            token pipelineStage = "pipelineStageSimulation"
+
+            def OmniGraphNode "OnPlaybackTick"
+            {
+                token node:type = "omni.graph.action.OnPlaybackTick"
+                int node:typeVersion = 2
+                custom double outputs:deltaSeconds
+                custom double outputs:frame
+                custom uint outputs:tick (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom double outputs:time
+            }
+
+            def OmniGraphNode "CameraInfoPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </World/Graph/ROS_Camera/Context.outputs:context>
+                custom bool inputs:enabled
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </World/Graph/ROS_Camera/RenderProduct.outputs:execOut>
+                custom string inputs:frameId = "global_camera"
+                custom string inputs:frameIdRight
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace = "global_camera"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = </World/Graph/ROS_Camera/RenderProduct.outputs:renderProductPath>
+                custom token inputs:renderProductPathRight
+                custom bool inputs:resetSimulationTimeOnStop = 1
+                custom string inputs:topicName = "camera_info"
+                custom string inputs:topicNameRight
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraInfoHelper"
+                int node:typeVersion = 1
+            }
+
+            def OmniGraphNode "RenderProduct"
+            {
+                custom rel inputs:cameraPrim = </World/global_camera> (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom bool inputs:enabled
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </World/Graph/ROS_Camera/RunOnce.outputs:step>
+                custom uint inputs:height
+                custom rel inputs:renderProductPrim (
+                    customData = {
+                        dictionary omni = {
+                            dictionary graph = {
+                                string relType = "target"
+                            }
+                        }
+                    }
+                )
+                custom uint inputs:width
+                token node:type = "isaacsim.core.nodes.IsaacCreateRenderProduct"
+                int node:typeVersion = 2
+                custom uint outputs:execOut (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                custom token outputs:renderProductPath
+            }
+
+            def OmniGraphNode "RunOnce"
+            {
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </World/Graph/ROS_Camera/OnPlaybackTick.outputs:tick>
+                token node:type = "isaacsim.core.nodes.OgnIsaacRunOneSimulationFrame"
+                int node:typeVersion = 1
+                custom uint outputs:step (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+            }
+
+            def OmniGraphNode "Context"
+            {
+                custom uchar inputs:domain_id
+                custom bool inputs:useDomainIDEnvVar
+                token node:type = "isaacsim.ros2.bridge.ROS2Context"
+                int node:typeVersion = 2
+                custom uint64 outputs:context
+            }
+
+            def OmniGraphNode "RGBPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </World/Graph/ROS_Camera/Context.outputs:context>
+                custom bool inputs:enabled
+                custom bool inputs:enableSemanticLabels
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </World/Graph/ROS_Camera/RenderProduct.outputs:execOut>
+                custom string inputs:frameId = "global_camera"
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace = "global_camera"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = </World/Graph/ROS_Camera/RenderProduct.outputs:renderProductPath>
+                custom bool inputs:resetSimulationTimeOnStop = 1
+                custom string inputs:semanticLabelsTopicName
+                custom string inputs:srtxCompressionType
+                custom float2 inputs:stereoOffset
+                custom string inputs:topicName = "/rgb"
+                custom token inputs:type = "rgb" (
+                    allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d"]
+                )
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraHelper"
+                int node:typeVersion = 2
+            }
+
+            def OmniGraphNode "DepthPublish"
+            {
+                custom uint64 inputs:context
+                prepend uint64 inputs:context.connect = </World/Graph/ROS_Camera/Context.outputs:context>
+                custom bool inputs:enabled
+                custom bool inputs:enableSemanticLabels
+                custom uint inputs:execIn (
+                    customData = {
+                        bool isExecution = 1
+                    }
+                )
+                prepend uint inputs:execIn.connect = </World/Graph/ROS_Camera/RenderProduct.outputs:execOut>
+                custom string inputs:frameId = "global_camera"
+                custom uint inputs:frameSkipCount
+                custom string inputs:nodeNamespace = "global_camera"
+                custom string inputs:qosProfile
+                custom uint64 inputs:queueSize
+                custom token inputs:renderProductPath
+                prepend token inputs:renderProductPath.connect = </World/Graph/ROS_Camera/RenderProduct.outputs:renderProductPath>
+                custom bool inputs:resetSimulationTimeOnStop = 1
+                custom string inputs:semanticLabelsTopicName
+                custom string inputs:srtxCompressionType
+                custom float2 inputs:stereoOffset
+                custom string inputs:topicName = "/depth"
+                custom token inputs:type = "depth" (
+                    allowedTokens = ["rgb", "rgb_h264", "depth", "depth_pcl", "instance_segmentation", "semantic_segmentation", "bbox_2d_tight", "bbox_2d_loose", "bbox_3d"]
+                )
+                custom bool inputs:useSystemTime
+                token node:type = "isaacsim.ros2.bridge.ROS2CameraHelper"
+                int node:typeVersion = 2
+            }
+        }
+    }
+    variantSet "background" = {
+        "empty" (
             customData = {
                 string[] variantPrimPaths = ["."]
             }
-            delete payload = @/home/fiveages/Documents/FaSim-Isaac/environment/fiveages_env/tasks/table_optical/payload/ros2_camera.usda@
-            prepend payload = @./payload/ros2_camera.usda@
+            delete payload = @../../background/Grid/default_environment.usd@
+            prepend payload = @../../background/Grid/default_environment.usd@
         ) {
 
         }
-        "none" {
+        "warehouse" (
+            customData = {
+                string[] variantPrimPaths = ["."]
+            }
+            delete payload = @../../background/Grid/default_environment.usd@
+            prepend payload = @../../background/warehouse/empty.usda@
+        ) {
 
         }
-    }
-}
-
-def Xform "Environment"
-{
-    quatd xformOp:orient = (1, 0, 0, 0)
-    double3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0, 0, 0)
-    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-    def DistantLight "defaultLight" (
-        prepend apiSchemas = ["ShapingAPI"]
-    )
-    {
-        float inputs:angle = 1
-        float inputs:intensity = 3000
-        float inputs:shaping:cone:angle = 180
-        float inputs:shaping:cone:softness
-        float inputs:shaping:focus
-        color3f inputs:shaping:focusTint
-        asset inputs:shaping:ies:file
-        quatd xformOp:orient = (0.6532814824381883, 0.2705980500730985, 0.27059805007309845, 0.6532814824381882)
-        double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (0, 0, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }
 
@@ -197,7 +359,7 @@ def "Render" (
                 uint omni:rtx:viewTile:limit = 4294967295
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1920, 1080)
+                uniform int2 resolution = (992, 595)
             }
 
             def RenderProduct "Replicator" (
@@ -1135,7 +1297,7 @@ def "Render" (
             {
                 rel camera = </World/global_camera>
                 bool omni:rtx:material:db:syncLoads = 1
-                bool omni:rtx:rt:ecoMode:enabled
+                bool omni:rtx:rt:ecoMode:enabled = 0
                 bool omni:rtx:scene:hydra:materialSyncLoads = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
@@ -1260,10 +1422,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (-3.67652180030925e-17, 1.17648697609896e-15, -15.438376077081214)
-    float3 xformOp:rotateXYZ = (72.59632, 2.862499e-14, 120.8775)
+    custom uniform vector3d omni:kit:centerOfInterest = (-4.4864560579819245e-17, 1.4356659385542158e-15, -18.83943565099985)
+    float3 xformOp:rotateXYZ = (72.59632, 3.180555e-14, 120.8775)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (1.665887399801353, 0.8118824461442247, 1.6041073746235721)
+    double3 xformOp:translate = (4.451273603378985, 2.4774165988743593, 2.6213713071172506)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 

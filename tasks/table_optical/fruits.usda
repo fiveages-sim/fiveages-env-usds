@@ -7,8 +7,8 @@
                 double radius = 5
             }
             dictionary Perspective = {
-                double3 position = (1.155307403694161, 0.38342126966773665, 1.2181258368499954)
-                double3 target = (-0.6271234072884819, -0.6529285527064412, 0.6345156654988436)
+                double3 position = (1.2456603349000526, 0.4359547220908295, 1.2477095319579576)
+                double3 target = (-0.6271234072884813, -0.6529285527064415, 0.6345156654988433)
             }
             dictionary Right = {
                 double3 position = (0, -5, 0)
@@ -70,7 +70,7 @@ def Xform "World"
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
 
                 over "model_normalized_0_vis_mesh" (
-                    instanceable = false
+                    instanceable = true
                 )
                 {
                     double3 xformOp:rotateZYX
@@ -116,7 +116,7 @@ def Xform "World"
     {
         quatf xformOp:orient = (1, 0, 0, 0)
         float3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (0.12412989884614944, 0.19190150499343872, 0.9545482397079468)
+        double3 xformOp:translate = (0.12412989884614944, 0.19190150499343872, 0.8449050791721521)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         over "Grasp"
@@ -137,9 +137,9 @@ def Xform "World"
                 instanceable = false
             )
             {
-                double3 xformOp:rotateZYX
-                double3 xformOp:scale
-                double3 xformOp:translate
+                double3 xformOp:rotateZYX = (0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
                 uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZYX", "xformOp:scale"]
 
                 over "lime_01_mesh_00" (
@@ -150,34 +150,6 @@ def Xform "World"
                 }
             }
         }
-    }
-}
-
-def Xform "Environment"
-{
-    quatd xformOp:orient = (1, 0, 0, 0)
-    double3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (0, 0, 0)
-    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-    def DistantLight "defaultLight" (
-        prepend apiSchemas = ["ShapingAPI"]
-    )
-    {
-        float inputs:angle = 1
-        float inputs:exposure = 1.5
-        float inputs:intensity = 3000
-        bool inputs:normalize = 1
-        float inputs:shaping:cone:angle = 180
-        float inputs:shaping:cone:softness
-        float inputs:shaping:focus
-        color3f inputs:shaping:focusTint
-        asset inputs:shaping:ies:file
-        custom int omni:rtx:usdluxVersion = 2505
-        quatd xformOp:orient = (0.6532814824381883, 0.2705980500730985, 0.27059805007309845, 0.6532814824381882)
-        double3 xformOp:scale = (1, 1, 1)
-        double3 xformOp:translate = (0, 0, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }
 
@@ -229,7 +201,7 @@ def "Render" (
                 bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
                 rel orderedVars = </Render/Vars/LdrColor>
                 custom bool overrideClipRange = 0
-                uniform int2 resolution = (1920, 1080)
+                uniform int2 resolution = (992, 595)
             }
 
             def RenderProduct "Replicator" (
@@ -294,10 +266,10 @@ over "OmniverseKit_Persp" (
     float exposure:time = 0.02
     float focalLength = 18.147562
     float focusDistance = 400
-    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -2.142820893677246)
-    float3 xformOp:rotateXYZ = (74.19549, -2.862499e-14, 120.17479)
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -2.2514423041690397)
+    float3 xformOp:rotateXYZ = (74.19549, -3.1805547e-15, 120.17479)
     float3 xformOp:scale = (1, 1, 1)
-    double3 xformOp:translate = (1.155307403694161, 0.38342126966773665, 1.2181258368499954)
+    double3 xformOp:translate = (1.2456603349000526, 0.4359547220908295, 1.2477095319579576)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
 }
 
@@ -377,7 +349,7 @@ over "OmniverseKit_Top" (
 }
 
 def PhysicsScene "PhysicsScene" (
-    prepend apiSchemas = ["NewtonSceneAPI", "MjcSceneAPI"]
+    prepend apiSchemas = ["NewtonSceneAPI", "MjcSceneAPI", "PhysxSceneAPI"]
 )
 {
 }
