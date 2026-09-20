@@ -1,0 +1,1275 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (1.2492099385228639, 0.8718751696646181, 1.8832914121397488)
+                double3 target = (-12.888803347295301, -8.573244916252916, -6.640072359274629)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary metricsAssembler = {
+            dictionary "/World/optical_table_01" = {
+            }
+            dictionary "/World/shelf8" = {
+            }
+            dictionary "/World/shelf8_01" = {
+            }
+            dictionary "/World/table" = {
+            }
+            int version = 1
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./drawer_apples.usda"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "World"
+    endTimeCode = 1000000
+    metersPerUnit = 1
+    startTimeCode = 0
+    timeCodesPerSecond = 60
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def "StorageFurniture135" (
+        prepend apiSchemas = ["PhysxArticulationAPI"]
+        delete payload = @../../../lightwheel/BedRoom/LW_Loft/Loft/StorageFurniture135/StorageFurniture135.usd@
+        prepend payload = @../../articulation/drawer/StorageFurniture135/StorageFurniture135.usd@
+    )
+    {
+        bool physxArticulation:enabledSelfCollisions = 0
+        quatf xformOp:orient = (0.17364818, 0, 0, -0.9848077)
+        float3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.26800783272101747, -0.5326468155791191, 1.0531688839504445)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "StorageFurniture135"
+        {
+            over "Collisions"
+            {
+                over "StorageFurniture135_Collider1_m" (
+                    prepend apiSchemas = ["MaterialBindingAPI", "PhysxTriangleMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxConvexHullCollisionAPI"]
+                )
+                {
+                    rel material:binding:physics = </World/StorageFurniture135/Physics/PhysicsMaterial> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    uniform token physics:approximation = "convexHull"
+                }
+            }
+        }
+
+        over "StorageFurniture135_Drawer001"
+        {
+            over "StorageFurniture135_Drawer001_joint"
+            {
+                float drive:X:physics:damping = 1
+                float drive:X:physics:stiffness = 0.05
+                float physics:lowerLimit = 0
+                float physics:upperLimit = 0.49999997
+            }
+        }
+
+        over "StorageFurniture135_Handle001"
+        {
+            over "Collisions"
+            {
+                over "StorageFurniture135_Handle001_Collider1_m" (
+                    prepend apiSchemas = ["MaterialBindingAPI", "PhysxSphereFillCollisionAPI", "PhysxSDFMeshCollisionAPI", "PhysxTriangleMeshSimplificationCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysxTriangleMeshCollisionAPI", "PhysxConvexDecompositionCollisionAPI"]
+                )
+                {
+                    rel material:binding:physics = </World/StorageFurniture135/Physics/PhysicsMaterial> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    uniform token physics:approximation = "convexHull"
+                    bool physics:collisionEnabled = 1
+                    float physxCollision:contactOffset = -inf
+                    float physxCollision:restOffset = -inf
+                    int physxSphereFillCollision:maxSpheres = 20
+                }
+            }
+        }
+
+        over "StorageFurniture135_Drawer002"
+        {
+            over "StorageFurniture135_Drawer002_joint"
+            {
+                float physics:lowerLimit = 0
+                float physics:upperLimit = 0.49999997
+            }
+        }
+
+        over "StorageFurniture135_Handle002"
+        {
+            over "Collisions"
+            {
+                over "StorageFurniture135_Handle002_Collider5_m"
+                {
+                    float physxCollision:contactOffset = -inf
+                    float physxCollision:restOffset = -inf
+                }
+            }
+        }
+
+        over "StorageFurniture135_Drawer003"
+        {
+            over "StorageFurniture135_Drawer003_joint"
+            {
+                float physics:lowerLimit = 0
+                float physics:upperLimit = 0.49999994
+            }
+        }
+
+        over "StorageFurniture135_Handle003"
+        {
+            over "Collisions"
+            {
+                over "StorageFurniture135_Handle003_Collider5_m"
+                {
+                    float physxCollision:contactOffset = 0.015
+                    float physxCollision:restOffset = -inf
+                    float physxConvexHullCollision:minThickness = 0.001
+                }
+            }
+        }
+
+        over "Physics"
+        {
+            over "PhysicsMaterial" (
+                prepend apiSchemas = ["PhysxMaterialAPI"]
+            )
+            {
+                float physics:dynamicFriction = 0.8
+                float physics:restitution = 0
+                float physics:staticFriction = 0.8
+                uniform token physxMaterial:frictionCombineMode = "average"
+            }
+        }
+    }
+
+    def "empty" (
+        delete payload = @./empty.usd@
+        prepend payload = @./empty.usda@
+    )
+    {
+        over "Graph"
+        {
+            over "ROS_Camera"
+            {
+                over "RGBPublish"
+                {
+                    custom string inputs:srtxCompressionType
+                }
+
+                over "DepthPublish"
+                {
+                    custom string inputs:srtxCompressionType
+                }
+
+                over "RenderProduct"
+                {
+                    custom rel inputs:renderProductPrim
+                }
+            }
+        }
+
+        over "global_camera" (
+            prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+        )
+        {
+        }
+    }
+
+    def "apple_03" (
+        prepend payload = @https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/SimReady/Residential/Kitchen/Food/Fruit/Apple_A01/sm_apple_a01_01.usd@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.22158832393234978, 0.08872378635341042, 0.8782463177299223)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Geometry"
+        {
+            over "model_normalized_0_vis_obj"
+            {
+            }
+        }
+    }
+
+    def "apple_01" (
+        prepend payload = @https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/SimReady/Residential/Kitchen/Food/Fruit/Apple_A01/sm_apple_a01_01.usd@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0.21512119619462106, 0.27460610219302095, 0.854007120817109)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Geometry"
+        {
+            over "model_normalized_0_vis_obj"
+            {
+            }
+        }
+    }
+
+    def "apple_02" (
+        prepend payload = @https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/SimReady/Residential/Kitchen/Food/Fruit/Apple_A01/sm_apple_a01_01.usd@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0.13525563596415346, 0.8465910421635399)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Geometry"
+        {
+            over "model_normalized_0_vis_obj"
+            {
+            }
+        }
+    }
+}
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 0
+                float3 omni:rtx:domeLight:rotationAxis = (0, 0, 1)
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:nonVisualMaterialCSV:enabled = 0
+                string omni:rtx:material:db:rtSensorNameToIdMap = "DefaultMaterial:0;AsphaltStandardMaterial:1;AsphaltWeatheredMaterial:2;VegetationGrassMaterial:3;WaterStandardMaterial:4;GlassStandardMaterial:5;FiberGlassMaterial:6;MetalAlloyMaterial:7;MetalAluminumMaterial:8;MetalAluminumOxidizedMaterial:9;PlasticStandardMaterial:10;RetroMarkingsMaterial:11;RetroSignMaterial:12;RubberStandardMaterial:13;SoilClayMaterial:14;ConcreteRoughMaterial:15;ConcreteSmoothMaterial:16;OakTreeBarkMaterial:17;FabricStandardMaterial:18;PlexiGlassStandardMaterial:19;MetalSilverMaterial:20"
+                bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:post:dlss:execMode = "performance"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:adaptiveSampling:filterError = 0
+                uint omni:rtx:pt:adaptiveSampling:fixedSppIterations = 2
+                bool omni:rtx:pt:lightcache:cached:dontResolveConflicts = 1
+                int omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:sss:samples = 1
+                int omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                uint omni:rtx:viewTile:limit = 4294967295
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (992, 569)
+            }
+
+            def RenderProduct "Replicator" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:dlss:frameGeneration = 0
+                string omni:rtx:material:db:rtSensorNameToIdMap = "DefaultMaterial:0;AsphaltStandardMaterial:1;AsphaltWeatheredMaterial:2;VegetationGrassMaterial:3;WaterStandardMaterial:4;GlassStandardMaterial:5;FiberGlassMaterial:6;MetalAlloyMaterial:7;MetalAluminumMaterial:8;MetalAluminumOxidizedMaterial:9;PlasticStandardMaterial:10;RetroMarkingsMaterial:11;RetroSignMaterial:12;RubberStandardMaterial:13;SoilClayMaterial:14;ConcreteRoughMaterial:15;ConcreteSmoothMaterial:16;OakTreeBarkMaterial:17;FabricStandardMaterial:18;PlexiGlassStandardMaterial:19;MetalSilverMaterial:20"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:lightcache:cached:dontResolveConflicts = 1
+                int omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                uint omni:rtx:viewTile:limit = 4294967295
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_01" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:dlss:frameGeneration = 0
+                string omni:rtx:material:db:rtSensorNameToIdMap = "DefaultMaterial:0;AsphaltStandardMaterial:1;AsphaltWeatheredMaterial:2;VegetationGrassMaterial:3;WaterStandardMaterial:4;GlassStandardMaterial:5;FiberGlassMaterial:6;MetalAlloyMaterial:7;MetalAluminumMaterial:8;MetalAluminumOxidizedMaterial:9;PlasticStandardMaterial:10;RetroMarkingsMaterial:11;RetroSignMaterial:12;RubberStandardMaterial:13;SoilClayMaterial:14;ConcreteRoughMaterial:15;ConcreteSmoothMaterial:16;OakTreeBarkMaterial:17;FabricStandardMaterial:18;PlexiGlassStandardMaterial:19;MetalSilverMaterial:20"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:lightcache:cached:dontResolveConflicts = 1
+                int omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                uint omni:rtx:viewTile:limit = 4294967295
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_02" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:dlss:frameGeneration = 0
+                string omni:rtx:material:db:rtSensorNameToIdMap = "DefaultMaterial:0;AsphaltStandardMaterial:1;AsphaltWeatheredMaterial:2;VegetationGrassMaterial:3;WaterStandardMaterial:4;GlassStandardMaterial:5;FiberGlassMaterial:6;MetalAlloyMaterial:7;MetalAluminumMaterial:8;MetalAluminumOxidizedMaterial:9;PlasticStandardMaterial:10;RetroMarkingsMaterial:11;RetroSignMaterial:12;RubberStandardMaterial:13;SoilClayMaterial:14;ConcreteRoughMaterial:15;ConcreteSmoothMaterial:16;OakTreeBarkMaterial:17;FabricStandardMaterial:18;PlexiGlassStandardMaterial:19;MetalSilverMaterial:20"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:lightcache:cached:dontResolveConflicts = 1
+                int omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                uint omni:rtx:viewTile:limit = 4294967295
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_03" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_03/PostRender"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:dlss:frameGeneration = 0
+                string omni:rtx:material:db:rtSensorNameToIdMap = "DefaultMaterial:0;AsphaltStandardMaterial:1;AsphaltWeatheredMaterial:2;VegetationGrassMaterial:3;WaterStandardMaterial:4;GlassStandardMaterial:5;FiberGlassMaterial:6;MetalAlloyMaterial:7;MetalAluminumMaterial:8;MetalAluminumOxidizedMaterial:9;PlasticStandardMaterial:10;RetroMarkingsMaterial:11;RetroSignMaterial:12;RubberStandardMaterial:13;SoilClayMaterial:14;ConcreteRoughMaterial:15;ConcreteSmoothMaterial:16;OakTreeBarkMaterial:17;FabricStandardMaterial:18;PlexiGlassStandardMaterial:19;MetalSilverMaterial:20"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:lightcache:cached:dontResolveConflicts = 1
+                int omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                uint omni:rtx:viewTile:limit = 4294967295
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_04" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:dlss:frameGeneration = 0
+                string omni:rtx:material:db:rtSensorNameToIdMap = "DefaultMaterial:0;AsphaltStandardMaterial:1;AsphaltWeatheredMaterial:2;VegetationGrassMaterial:3;WaterStandardMaterial:4;GlassStandardMaterial:5;FiberGlassMaterial:6;MetalAlloyMaterial:7;MetalAluminumMaterial:8;MetalAluminumOxidizedMaterial:9;PlasticStandardMaterial:10;RetroMarkingsMaterial:11;RetroSignMaterial:12;RubberStandardMaterial:13;SoilClayMaterial:14;ConcreteRoughMaterial:15;ConcreteSmoothMaterial:16;OakTreeBarkMaterial:17;FabricStandardMaterial:18;PlexiGlassStandardMaterial:19;MetalSilverMaterial:20"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                bool omni:rtx:pt:lightcache:cached:dontResolveConflicts = 1
+                int omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                uint omni:rtx:viewTile:limit = 4294967295
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_05" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_05/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_06" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_06/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_07" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_07/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_08" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_08/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_1" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/DobotCR5/ChangingTek_AG2F90_C_Soft/flange/wrist_camera/wrist_Camera>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 0
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:material:db:syncLoads = 1
+                token omni:rtx:post:dlss:execMode = "performance"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                int omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:ecoMode:enabled
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:sss:samples = 1
+                int omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                bool omni:rtx:scene:hydra:mdlMaterialWarmup = 1
+                uint omni:rtx:viewTile:limit = 4294967295
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_09" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_09/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_10" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_10/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_11" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_11/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_12" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_12/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_13" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_13/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_14" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_14/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_15" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/DobotCR5/ChangingTek_AG2F90_C_Soft/flange/wrist_camera/wrist_Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_15/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_16" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_16/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_17" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_18" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/DobotCR5/ChangingTek_AG2F90_C_Soft/flange/wrist_camera/wrist_Camera>
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_19" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/DobotCR5/ChangingTek_AG2F90_C_Soft/flange/wrist_camera/wrist_Camera>
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_20" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_21" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/DobotCR5/ChangingTek_AG2F90_C_Soft/flange/wrist_camera/wrist_Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_21/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_22" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_22/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_23" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_23/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_24" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/DobotCR5/ChangingTek_AG2F90_C_Soft/flange/wrist_camera/wrist_Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_24/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_25" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/DobotCR5/ChangingTek_AG2F90_C_Soft/flange/wrist_camera/wrist_Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_25/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_26" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_26/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_27" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/DobotCR5/ChangingTek_AG2F90_C_Soft/flange/wrist_camera/wrist_Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_27/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_28" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_28/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_29" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_29/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_30" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/DobotCR5/ChangingTek_AG2F90_C_Soft/flange/wrist_camera/wrist_Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_30/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_31" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_31/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_32" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/DobotCR5/ChangingTek_AG2F90_C_Soft/flange/wrist_camera/wrist_Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_32/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_33" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/DobotCR5/ChangingTek_AG2F90_C_Soft/flange/wrist_camera/wrist_Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_33/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_34" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/DobotCR5_ROS2/Camera>
+                custom string ogPostProcessPath = "/Render/OmniverseKit/HydraTextures/Replicator_34/PostRender"
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled = 0
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = [
+                    </Render/Vars/LdrColorSD>,
+                    </Render/Vars/DistanceToImagePlaneSD>,
+                    </Render/Vars/LdrColor>,
+                ]
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+
+            def RenderProduct "Replicator_35" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/empty/global_camera>
+                bool omni:rtx:material:db:syncLoads = 1
+                bool omni:rtx:rt:ecoMode:enabled
+                bool omni:rtx:scene:hydra:materialSyncLoads = 1
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        rel products = [
+            </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>,
+            </Render/OmniverseKit/HydraTextures/Replicator>,
+            </Render/OmniverseKit/HydraTextures/Replicator_01>,
+            </Render/OmniverseKit/HydraTextures/Replicator_02>,
+            </Render/OmniverseKit/HydraTextures/Replicator_03>,
+            </Render/OmniverseKit/HydraTextures/Replicator_04>,
+            </Render/OmniverseKit/HydraTextures/Replicator_05>,
+            </Render/OmniverseKit/HydraTextures/Replicator_06>,
+            </Render/OmniverseKit/HydraTextures/Replicator_07>,
+            </Render/OmniverseKit/HydraTextures/Replicator_08>,
+            </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_1>,
+            </Render/OmniverseKit/HydraTextures/Replicator_09>,
+            </Render/OmniverseKit/HydraTextures/Replicator_10>,
+            </Render/OmniverseKit/HydraTextures/Replicator_11>,
+            </Render/OmniverseKit/HydraTextures/Replicator_12>,
+            </Render/OmniverseKit/HydraTextures/Replicator_13>,
+            </Render/OmniverseKit/HydraTextures/Replicator_14>,
+            </Render/OmniverseKit/HydraTextures/Replicator_15>,
+            </Render/OmniverseKit/HydraTextures/Replicator_16>,
+            </Render/OmniverseKit/HydraTextures/Replicator_17>,
+            </Render/OmniverseKit/HydraTextures/Replicator_18>,
+            </Render/OmniverseKit/HydraTextures/Replicator_19>,
+            </Render/OmniverseKit/HydraTextures/Replicator_20>,
+            </Render/OmniverseKit/HydraTextures/Replicator_21>,
+            </Render/OmniverseKit/HydraTextures/Replicator_22>,
+            </Render/OmniverseKit/HydraTextures/Replicator_23>,
+            </Render/OmniverseKit/HydraTextures/Replicator_24>,
+            </Render/OmniverseKit/HydraTextures/Replicator_25>,
+            </Render/OmniverseKit/HydraTextures/Replicator_26>,
+            </Render/OmniverseKit/HydraTextures/Replicator_27>,
+            </Render/OmniverseKit/HydraTextures/Replicator_28>,
+            </Render/OmniverseKit/HydraTextures/Replicator_29>,
+            </Render/OmniverseKit/HydraTextures/Replicator_30>,
+            </Render/OmniverseKit/HydraTextures/Replicator_31>,
+            </Render/OmniverseKit/HydraTextures/Replicator_32>,
+            </Render/OmniverseKit/HydraTextures/Replicator_33>,
+            </Render/OmniverseKit/HydraTextures/Replicator_34>,
+            </Render/OmniverseKit/HydraTextures/Replicator_35>,
+        ]
+    }
+
+    def "Vars"
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+        }
+    }
+
+    over "PostProcess"
+    {
+        over "SDGPipeline"
+        {
+            over "DispatchSync"
+            {
+                custom int2[] inputs:simTimesToWrite = [(1481, 10), (2222, 15), (889, 6), (741, 5), (4447, 30), (2224, 15), (1483, 10), (445, 3), (4451, 30), (742, 5)]
+            }
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (0.01, 10000000)
+    float exposure:fStop = 5
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (-4.529337289437698e-17, 1.4493879326200633e-15, -19.019501651915935)
+    float3 xformOp:rotateXYZ = (63.37571, -3.8166657e-14, 123.74552)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (1.2492099385228639, 0.8718751696646181, 1.8832914121397488)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+def PhysicsScene "PhysicsScene" (
+    prepend apiSchemas = ["NewtonSceneAPI", "PhysxSceneAPI", "MjcSceneAPI"]
+)
+{
+}
+
